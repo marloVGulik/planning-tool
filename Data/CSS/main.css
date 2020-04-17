@@ -5,6 +5,18 @@
     font-size: 16px;
     text-align: center;
     font-family: monospace;
+
+    
+    /* background-color: #FFFFFF;
+    color: #000000; */
+
+    /* background-image: url(https://i0.wp.com/www.surrealresolution.com/wp-content/uploads/2017/02/KS-6-1.jpg?fit=1152%2C646&ssl=1);
+    background-image: url(https://i.pinimg.com/originals/d1/d6/c0/d1d6c0fe9c91839b97e361387b505b97.gif);
+    background-image: url(https://i.pinimg.com/originals/d1/d6/c0/d1d6c0fe9c91839b97e361387b505b97.gif);
+    background-size: 100%;
+    background-size: contain;
+    background-size: 100% 100%;
+    color: #FF0000; */
 }
 h1 {
     font-size: 40px;
@@ -21,6 +33,36 @@ p {
 body {
     margin: 0;
     text-align: center;
+}
+input {
+    border: 1px solid #515151;
+    padding: 0.5rem;
+}
+input:hover, input:focus {
+    border: 1px solid #FF0000;
+}
+form {
+    text-align: left;
+}
+form>label {
+    display: inline-block;
+    width: 20%;
+    text-align: left;
+}
+form>input {
+    width: 80%;
+    text-align: left;
+    margin: 0.2rem 0;
+}
+select {
+    border: 1px solid #515151;
+    width: 80%;
+    text-align: left;
+    margin: 0.2rem 0;
+    padding: 0.5rem;
+}
+option:hover option:focus {
+    border: 1px solid #FF0000;
 }
 ul {
     list-style: none;

@@ -4,7 +4,6 @@ require("Data/PHP/DB/DBmanager.php");
 
 $conn = createConn("gamemanager", "yQYlpIQ9tyEVZeFV", "spellen");
 $result = DBcommand($conn, "SELECT * FROM planning", []);
-
 // print_r($result);
 ?>
 <div class="container siz-10">
@@ -18,18 +17,29 @@ $result = DBcommand($conn, "SELECT * FROM planning", []);
             <th>Totale tijd</th>
             <th>Host</th>
             <th>Spelers</th>
+            <th>Verandering</th>
         </tr>
         <?php
             foreach($result as $tmpRes) { // Opnieuw doen, we hebben soorten spellen gekregen, niet een planning!
                 $gameres = DBcommand($conn, "SELECT * FROM games WHERE id = :id", [":id" => $tmpRes['gameid']]);
                 ?>
                 <tr>
-                    <td class="no-padding"><img class="logo" src="<?= "Data/images/" . $gameres[0]['image'] ?>"></td>
-                    <td><?= $gameres[0]['name'] ?></td>
-                    <td><?= $tmpRes['starttime'] ?></td>
-                    <td><?= $gameres[0]['explain_minutes'] . " minuten voor uitleg en " . $gameres[0]['play_minutes'] . " minuten speeltijd" ?></td>
-                    <td><?= $tmpRes['host'] ?></td>
-                    <td><?= $tmpRes['players'] ?></td>
+                    <td class="no-padding"><img class="logo" src="<?= "Data/images/" . htmlspecialchars($gameres[0]['image']) ?>"></td>
+                    <td><?= htmlspecialchars($gameres[0]['name']) ?></td>
+                    <td><?= htmlspecialchars($tmpRes['starttime']) ?></td>
+                    <td><?= htmlspecialchars($gameres[0]['explain_minutes']) . " minuten voor uitleg en " . htmlspecialchars($gameres[0]['play_minutes']) . " minuten speeltijd" ?></td>
+                    <td><?= htmlspecialchars($tmpRes['host']) ?></td>
+                    <td><?= htmlspecialchars($tmpRes['players']) ?></td>
+                    <td>
+                        <form action="edit.php" method="post" style="width: 100%">
+                            <input type="hidden" value="<?= $tmpRes['id'] ?>"></input>
+                            <input type="submit" value="Verander" style="width: 100%">
+                        </form>
+                        <form action="delete.php" method="post" style="width: 100%">
+                            <input type="hidden" value="<?= $tmpRes['id'] ?>"></input>
+                            <input type="submit" value="Delete" style="width: 100%">
+                        </form>
+                    </td>
                 </tr>
                 <?php
             }
