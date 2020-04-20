@@ -8,7 +8,7 @@ $result = DBcommand($conn, "SELECT * FROM planning", []);
 ?>
 <div class="container siz-10">
     <h1 class="siz-12">PLANNING</h1>
-    <a class="container siz-12" href="plan.php"><h2>Voeg iets toe aan de planning</h2></a>
+    <a class="container siz-12 button" href="plan.php"><h2>Voeg iets toe aan de planning</h2></a>
     <table class="container siz-12" style="text-align: center">
         <tr>
             <th>Logo</th>
@@ -32,11 +32,11 @@ $result = DBcommand($conn, "SELECT * FROM planning", []);
                     <td><?= htmlspecialchars($tmpRes['players']) ?></td>
                     <td>
                         <form action="edit.php" method="post" style="width: 100%">
-                            <input type="hidden" value="<?= $tmpRes['id'] ?>"></input>
+                            <input type="hidden" value="<?= $tmpRes['id'] ?>" name="id"></input>
                             <input type="submit" value="Verander" style="width: 100%">
                         </form>
                         <form action="delete.php" method="post" style="width: 100%">
-                            <input type="hidden" value="<?= $tmpRes['id'] ?>"></input>
+                            <input type="hidden" value="<?= $tmpRes['id'] ?>" name="id"></input>
                             <input type="submit" value="Delete" style="width: 100%">
                         </form>
                     </td>

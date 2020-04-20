@@ -91,7 +91,9 @@ tr:nth-child(even) {
     padding: 0;
 }
 
-
+.button:hover {
+    border-color: #FF0000;
+}
 .container {
     /* border: 1px solid #313131; */
     display: inline-block;

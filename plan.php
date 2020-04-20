@@ -5,15 +5,35 @@ require("Data/PHP/DB/DBmanager.php");
 
 $conn = createConn("gamemanager", "yQYlpIQ9tyEVZeFV", "spellen");
 
+$nameArray = [
+    'gameid',
+    'startdate',
+    'starttime',
+    'host',
+    'players'
+];
+
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $dt = new DateTime($_POST['startdate'] . "T" . $_POST['starttime']);
-    $sendDT = $dt->format('Y-m-d\TH:i:s.u');;
-    DBcommand($conn, "INSERT INTO `planning` (`id`, `gameid`, `starttime`, `host`, `players`) VALUES (NULL, :gameid, :dt, :host, :players); ", [
-        ":gameid" => $_POST['gameid'], 
-        ":dt" => $sendDT, 
-        ":host" => $_POST['host'],
-        ":players" => $_POST['players']
-    ]);
+    $checkBool = true;
+    foreach($nameArray as $key) {
+        if(!isset($_POST[$key])) {
+            $checkBool = false;
+        } else if(strlen(strval($_POST[$key])) < 1) {
+            $checkBool = false;
+        }
+    }
+    if($checkBool) {
+        $dt = new DateTime($_POST['startdate'] . "T" . $_POST['starttime']);
+        $sendDT = $dt->format('Y-m-d\TH:i:s.u');;
+        DBcommand($conn, "INSERT INTO `planning` (`id`, `gameid`, `starttime`, `host`, `players`) VALUES (NULL, :gameid, :dt, :host, :players); ", [
+            ":gameid" => $_POST['gameid'], 
+            ":dt" => $sendDT, 
+            ":host" => $_POST['host'],
+            ":players" => $_POST['players']
+        ]);
+    } else {
+        echo "Error: Not all items were set!";
+    }
 }
 
 ?>
