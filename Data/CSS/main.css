@@ -105,7 +105,7 @@ tr:nth-child(even) {
 .logo {
     float: left;
     /* border: 1px solid #FF0000; */
-    width: 5rem;
+    width: 10rem;
 }
 .profilePicLarge {
     float: left;
