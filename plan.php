@@ -3,7 +3,7 @@
 require("Data/HTML/head.html");
 require("Data/PHP/DB/DBmanager.php");
 
-$conn = createConn("gamemanager", "yQYlpIQ9tyEVZeFV", "spellen");
+// $conn = createConn("gamemanager", "yQYlpIQ9tyEVZeFV", "spellen");
 
 $nameArray = [
     'gameid',
@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($checkBool) {
         $dt = new DateTime($_POST['startdate'] . "T" . $_POST['starttime']);
         $sendDT = $dt->format('Y-m-d\TH:i:s.u');;
-        DBcommand($conn, "INSERT INTO `planning` (`id`, `gameid`, `starttime`, `host`, `players`) VALUES (NULL, :gameid, :dt, :host, :players); ", [
+        DBcommand("INSERT INTO `planning` (`id`, `gameid`, `starttime`, `host`, `players`) VALUES (NULL, :gameid, :dt, :host, :players); ", [
             ":gameid" => $_POST['gameid'], 
             ":dt" => $sendDT, 
             ":host" => $_POST['host'],
@@ -43,9 +43,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form action="plan.php" method="post" class="container siz-12">
         <label for="gameid">GAME: </label><select name="gameid" id="gameid">
             <?php 
-            $result = DBcommand($conn, "SELECT * FROM games", []);
+            $result = DBcommand("SELECT * FROM games", []);
             foreach($result as $tmpResult) {
-                ?><option value="<?= $tmpResult['id'] ?>"><?= $tmpResult['name'] ?></option><?php
+                ?><option value="<?= htmlspecialchars($tmpResult['id']) ?>"><?= htmlspecialchars($tmpResult['name']) ?></option><?php
             }
             ?>
         </select>

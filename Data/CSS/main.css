@@ -107,10 +107,10 @@ tr:nth-child(even) {
     /* border: 1px solid #FF0000; */
     width: 10rem;
 }
-.profilePicLarge {
+.logoLarge {
     float: left;
     border: 1px solid #FF0000;
-    height: 20rem;
+    height: 30rem;
     margin: 0.5rem;
 }
 .profilestats {
