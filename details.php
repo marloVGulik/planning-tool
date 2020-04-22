@@ -2,8 +2,15 @@
 require("Data/HTML/head.html");
 require("Data/PHP/DB/DBmanager.php");
 
-$planningResult = DBcommand("SELECT * FROM planning WHERE id = :id", [':id' => $_POST['id']]);
-$gameResult = DBcommand("SELECT * FROM games WHERE id = :id", [':id' => $planningResult[0]['gameid']]);
+$planningResult = DBcommand("SELECT * FROM planning WHERE id = :id", [':id' => $_GET['id']])['output'];
+
+if(!isset($planningResult[0]['host'])) {
+    header("location: index.php");
+}
+
+$gameResult = DBcommand("SELECT * FROM games WHERE id = :id", [':id' => $planningResult[0]['gameid']])['output'];
+
+
 
 $date = new DateTime($planningResult[0]['starttime']);
 

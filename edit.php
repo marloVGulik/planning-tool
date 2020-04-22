@@ -12,7 +12,7 @@ $nameArray = [
     'host',
     'players'
 ];
-
+$errorCode = NULL;
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $checkBool = true;
     foreach($nameArray as $key) {
@@ -25,29 +25,47 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($checkBool) {
         $dt = new DateTime($_POST['startdate'] . "T" . $_POST['starttime']);
         $sendDT = $dt->format('Y-m-d\TH:i:s.u');
-        DBcommand("UPDATE `planning` SET `gameid` = :gameid, `starttime` = :dt, `host` = :host, `players` = :players WHERE `planning` . `id` = :id", [
+        $errorCode = DBcommand("UPDATE `planning` SET `gameid` = :gameid, `starttime` = :dt, `host` = :host, `players` = :players WHERE `planning` . `id` = :id", [
             ":gameid" => $_POST['gameid'], 
             ":dt" => $sendDT, 
             ":host" => $_POST['host'],
             ":players" => $_POST['players'],
             ":id" => $_POST['id']
-        ]);
+        ])['errorCode'];
     } else {
         // echo "Error: Not all items were set!";
     }
 }
 
-$planningResult = DBcommand("SELECT * FROM `planning` WHERE `id` = :id", [':id' => $_POST['id']]);
+$planningResult = DBcommand("SELECT * FROM `planning` WHERE `id` = :id", [':id' => $_POST['id']])['output'];
 $date = new DateTime($planningResult[0]['starttime']);
 
 ?>
-<a class="container siz-10" href="index.php"><h1>HOME</h1></a>
+<?php
+if($errorCode != NULL) { ?>
+
+<div class="container siz-10">
+    <h2>
+        <?php 
+        
+        if($errorCode == 00000) {
+            echo "UPDATE SUCCESS!";
+        } else {
+            echo "UPDATE FAILED: errorcode " . $errorCode;
+        }
+
+        ?>
+    </h2>
+</div>
+
+<?php }
+?>
 <div class="container siz-10">
     <h2>Plan een nieuw spel</h2>
     <form action="edit.php" method="post" class="container siz-12">
         <label for="gameid">GAME: </label><select name="gameid" id="gameid">
             <?php 
-            $result = DBcommand("SELECT * FROM games", []);
+            $result = DBcommand("SELECT * FROM games", [])['output'];
             foreach($result as $tmpResult) {
                 ?><option value="<?= htmlspecialchars($tmpResult['id']) ?>" <?php if($tmpResult['id'] == $planningResult[0]['gameid']) echo "selected"; ?>><?= $tmpResult['name'] ?></option><?php
             }

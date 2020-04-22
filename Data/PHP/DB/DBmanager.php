@@ -20,7 +20,11 @@ function DBcommand($statement, $args) {
     $execStatement = $connection->prepare($statement);
     $execStatement->execute($args);
     $connection = null;
-    return $execStatement->fetchAll();
+    $output = [
+        'output' => $execStatement->fetchAll(),
+        'errorCode' => $execStatement->errorCode()
+    ];
+    return $output;
 }
 
 ?>

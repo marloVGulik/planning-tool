@@ -3,7 +3,7 @@ require("Data/HTML/head.html");
 require("Data/PHP/DB/DBmanager.php");
 
 // $conn = createConn("gamemanager", "yQYlpIQ9tyEVZeFV", "spellen");
-$result = DBcommand("SELECT * FROM planning", []);
+$result = DBcommand("SELECT * FROM planning", [])['output'];
 // print_r($result);
 ?>
 <div class="container siz-10">
@@ -22,7 +22,7 @@ $result = DBcommand("SELECT * FROM planning", []);
         <?php
             foreach($result as $tmpRes) { // Opnieuw doen, we hebben soorten spellen gekregen, niet een planning!
                 $date = new DateTime($tmpRes['starttime']);
-                $gameres = DBcommand("SELECT * FROM games WHERE id = :id", [":id" => $tmpRes['gameid']]);
+                $gameres = DBcommand("SELECT * FROM games WHERE id = :id", [":id" => $tmpRes['gameid']])['output'];
                 ?>
                 <tr>
                     <td class="no-padding"><img class="logo" src="<?= "Data/images/" . htmlspecialchars($gameres[0]['image']) ?>" alt="game logo"></td>
@@ -32,7 +32,7 @@ $result = DBcommand("SELECT * FROM planning", []);
                     <td><?= htmlspecialchars($tmpRes['host']) ?></td>
                     <td><?= htmlspecialchars($tmpRes['players']) ?></td>
                     <td>
-                        <form action="details.php" method="post" style="width: 100%">
+                        <form action="details.php" method="get" style="width: 100%">
                             <input type="hidden" value="<?= $tmpRes['id'] ?>" name="id"></input>
                             <input type="submit" value="Details" style="width: 100%">
                         </form>
